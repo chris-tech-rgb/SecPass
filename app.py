@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask
 from flask import request
 from flask_cors import CORS
@@ -97,11 +99,14 @@ def form_submit():
     website = request_form['website']
     username = request_form['username']
     password = request_form['password']
+    safety = request_form['safety']
     cursor.execute("SELECT _uid_ FROM userlist WHERE _username_='" + user + "'")
     user_id = cursor.fetchone()[0]
     _uuid = str(uuid.uuid4())
+    last_update = str(datetime.now().date())
     cursor.execute("INSERT INTO password VALUES ('" + _uuid + "', '" + user_id + "', '" + website + "', '" +
-                   username + "', '" + password + "', 'test', 'test')")
+                   username + "', '" + password + "', '" + last_update + "', '" + safety + "')")
+    conn.commit()
     return json.dumps({
             'code': 20000
         })
