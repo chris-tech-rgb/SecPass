@@ -90,4 +90,21 @@ def table_list():
     return response_form
 
 
+@app.route('/form/submit', methods=['POST'])
+def form_submit():
+    request_form = request.get_json()
+    user = request_form['user']
+    website = request_form['website']
+    username = request_form['username']
+    password = request_form['password']
+    cursor.execute("SELECT _uid_ FROM userlist WHERE _username_='" + user + "'")
+    user_id = cursor.fetchone()[0]
+    _uuid = str(uuid.uuid4())
+    cursor.execute("INSERT INTO password VALUES ('" + _uuid + "', '" + user_id + "', '" + website + "', '" +
+                   username + "', '" + password + "', 'test', 'test')")
+    return json.dumps({
+            'code': 20000
+        })
+
+
 app.run(host='192.168.206.128')
