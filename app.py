@@ -108,8 +108,10 @@ def form_submit():
                    username + "', '" + password + "', '" + last_update + "', '" + safety + "')")
     conn.commit()
     return json.dumps({
-            'code': 20000
-        })
+        'code': 20000
+    })
 
 
+# Server
+# app.run(host='172.25.113.153')
 app.run(host='192.168.206.128')
