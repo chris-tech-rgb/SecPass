@@ -75,7 +75,8 @@ def table_list():
     total = len(password_list)
     items = []
     for i in password_list:
-        item = dict.fromkeys(['website', 'username', 'password', 'last_update', 'safety'])
+        item = dict.fromkeys(['uuid', 'website', 'username', 'password', 'last_update', 'safety'])
+        item['uuid'] = i[0]
         item['website'] = i[2]
         item['username'] = i[3]
         item['password'] = i[4]
