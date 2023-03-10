@@ -132,7 +132,7 @@ def form_update():
 
 
 @app.route('/form/delete', methods=['POST'])
-def form_update():
+def form_delete():
     request_form = request.get_json()
     _uuid = request_form['uuid']
     cursor.execute("DELETE FROM password WHERE _uuid_='" + _uuid + "'")
