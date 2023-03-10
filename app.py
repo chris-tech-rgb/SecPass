@@ -119,19 +119,11 @@ def form_update():
     _uuid = request_form['uuid']
     website = request_form['website']
     username = request_form['username']
-    old_password = request_form['old_password']
-    new_password = request_form['new_password']
+    password = request_form['password']
     safety = request_form['safety']
-    cursor.execute("SELECT _password_ FROM password WHERE _uuid_='" + _uuid + "'")
-    correct_password = cursor.fetchone()[0]
-    if old_password != correct_password:
-        return json.dumps({
-            'code': 60204,
-            'message': '原密码或PIN不正确'
-        })
     last_update = str(datetime.now().date())
     cursor.execute("UPDATE password SET _website_='" + website + "', _username_='" +
-                   username + "', _password_='" + new_password + "', _last_update_='" +
+                   username + "', _password_='" + password + "', _last_update_='" +
                    last_update + "', _safety_='" + safety + "' WHERE _uuid_='" + _uuid + "'")
     conn.commit()
     return json.dumps({
