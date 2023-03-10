@@ -113,6 +113,32 @@ def form_submit():
     })
 
 
+@app.route('/form/update', methods=['POST'])
+def form_update():
+    request_form = request.get_json()
+    _uuid = request_form['uuid']
+    website = request_form['website']
+    username = request_form['username']
+    old_password = request_form['old_password']
+    new_password = request_form['new_password']
+    safety = request_form['safety']
+    cursor.execute("SELECT _password_ FROM password WHERE _uuid_='" + _uuid + "'")
+    correct_password = cursor.fetchone()[0]
+    if old_password != correct_password:
+        return json.dumps({
+            'code': 60204,
+            'message': '原密码或PIN不正确'
+        })
+    last_update = str(datetime.now().date())
+    cursor.execute("UPDATE password SET _website_='" + website + "', _username_='" +
+                   username + "', _password_='" + new_password + "', _last_update_='" +
+                   last_update + "', _safety_='" + safety + "' WHERE _uuid_='" + _uuid + "'")
+    conn.commit()
+    return json.dumps({
+        'code': 20000
+    })
+
+
 # Server
 # app.run(host='172.25.113.153')
 app.run(host='192.168.206.128')
