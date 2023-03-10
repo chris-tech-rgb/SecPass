@@ -131,6 +131,17 @@ def form_update():
     })
 
 
+@app.route('/form/delete', methods=['POST'])
+def form_update():
+    request_form = request.get_json()
+    _uuid = request_form['uuid']
+    cursor.execute("DELETE FROM password WHERE _uuid_='" + _uuid + "'")
+    conn.commit()
+    return json.dumps({
+        'code': 20000
+    })
+
+
 # Server
 # app.run(host='172.25.113.153')
 app.run(host='192.168.206.128')
