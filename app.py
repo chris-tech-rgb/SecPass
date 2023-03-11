@@ -7,6 +7,17 @@ import json
 import psycopg2
 import uuid
 
+def connect(con, curs):
+    con = psycopg2.connect(
+        database="SecPass",
+        host="127.0.0.1",
+        user="postgres",
+        password="114514",
+        port="5432"
+    )
+    curs = conn.cursor()
+
+
 app = Flask(__name__)
 app.config["DEBUG"] = True
 CORS(app)
@@ -108,6 +119,8 @@ def form_submit():
     cursor.execute("INSERT INTO password VALUES ('" + _uuid + "', '" + user_id + "', '" + website + "', '" +
                    username + "', '" + password + "', '" + last_update + "', '" + safety + "')")
     conn.commit()
+    conn.closed()
+    connect(conn, cursor)
     return json.dumps({
         'code': 20000
     })
@@ -126,6 +139,8 @@ def form_update():
                    username + "', _password_='" + password + "', _last_update_='" +
                    last_update + "', _safety_='" + safety + "' WHERE _uuid_='" + _uuid + "'")
     conn.commit()
+    conn.closed()
+    connect(conn, cursor)
     return json.dumps({
         'code': 20000
     })
